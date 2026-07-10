@@ -95,11 +95,26 @@
     background: var(--surface);
     border-radius: 4px;
     overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill-companero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 184, 0, 0.35);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
   }
 
   .progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
-    background: linear-gradient(90deg, var(--green) 0%, var(--gold) 100%);
+    background: linear-gradient(90deg, var(--green) 0%, #7BC454 100%);
     border-radius: 4px;
     transition: width 0.4s ease;
     width: 0%;
@@ -110,9 +125,12 @@
     justify-content: space-between;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   .progress-labels .obtained { color: var(--green); font-weight: 700; }
+  .progress-labels .after-companero { color: var(--gold); }
   .progress-labels .total { color: var(--muted); }
 
   .legend {
@@ -395,11 +413,13 @@
       <h1>Cromos que me <span class="accent">faltan</span></h1>
       <div class="progress-wrap">
         <div class="progress-track">
+          <div class="progress-fill-companero" id="progressFillCompanero"></div>
           <div class="progress-fill" id="progressFill"></div>
         </div>
         <div class="progress-labels">
           <span><span class="obtained" id="obtainedCount">0</span> conseguidos</span>
-          <span class="total"><span id="totalCount">0</span> pendientes en total</span>
+          <span class="after-companero"><span id="afterCompaneroCount">0</span> tras Adrián</span>
+          <span class="total"><span id="totalCount">0</span> pendientes</span>
         </div>
       </div>
     </div>
@@ -439,7 +459,7 @@
     specials: [
       { name: 'Especiales / FWC', stickers: [
         { id: 'esp-00', num: '00', player: 'Panini Logo', companero: false },
-        { id: 'esp-copa', num: '—', player: 'Copa Arriba', companero: false },
+        { id: 'esp-copa', num: '—', player: 'Copa Arriba', companero: true },
         { id: 'esp-fwc5', num: 'FWC5', player: 'Official Ball', companero: false },
         { id: 'esp-fwc7', num: 'FWC7', player: 'Mexico · Host Country', companero: true },
         { id: 'esp-fwc8', num: 'FWC8', player: 'USA · Host Country', companero: false },
@@ -447,7 +467,7 @@
       { name: 'Coca-Cola', stickers: [
         { id: 'cc-kimmich', num: 'CC', player: 'Kimmich', companero: false },
         { id: 'cc-gvardiol', num: 'CC', player: 'Gvardiol', companero: false },
-        { id: 'cc-valverde', num: 'CC', player: 'Valverde', companero: false },
+        { id: 'cc-valverde', num: 'CC', player: 'Valverde', companero: true },
         { id: 'cc-rjimenez', num: 'CC', player: 'Raúl Jiménez', companero: false },
         { id: 'cc-lautaro', num: 'CC', player: 'Lautaro', companero: false },
         { id: 'cc-robinson', num: 'CC', player: 'Robinson', companero: false },
@@ -571,15 +591,21 @@
     const total = all.length;
     const obtained = all.filter(s => obtainedSet.has(s.id)).length;
     const pending = total - obtained;
-    const companeroCount = all.filter(s => s.companero && !obtainedSet.has(s.id)).length;
+    const companeroPending = all.filter(s => s.companero && !obtainedSet.has(s.id)).length;
+    const afterCompanero = pending - companeroPending;
 
     document.getElementById('obtainedCount').textContent = obtained;
+    document.getElementById('afterCompaneroCount').textContent = afterCompanero;
     document.getElementById('totalCount').textContent = pending;
-    document.getElementById('progressFill').style.width = total > 0 ? (obtained / total * 100) + '%' : '0%';
+
+    const obtainedPct = total > 0 ? (obtained / total * 100) : 0;
+    const withCompaneroPct = total > 0 ? ((obtained + companeroPending) / total * 100) : 0;
+    document.getElementById('progressFill').style.width = obtainedPct + '%';
+    document.getElementById('progressFillCompanero').style.width = withCompaneroPct + '%';
 
     document.getElementById('countAll').textContent = total;
     document.getElementById('countPending').textContent = pending;
-    document.getElementById('countCompanero').textContent = companeroCount;
+    document.getElementById('countCompanero').textContent = companeroPending;
   }
 
   function matchesSearch(name, stickers) {

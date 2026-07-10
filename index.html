@@ -19,6 +19,8 @@
     --muted: #8A96B2;
     --gold: #FFB800;
     --gold-dim: #8A6500;
+    --teal: #22D3C5;
+    --teal-dim: #0F6B62;
     --green: #00C853;
     --red: #FF3D71;
   }
@@ -31,7 +33,7 @@
     padding: 24px 16px 60px;
     background-image:
       radial-gradient(ellipse at top, rgba(255, 184, 0, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom, rgba(0, 200, 83, 0.03) 0%, transparent 50%);
+      radial-gradient(ellipse at bottom, rgba(34, 211, 197, 0.04) 0%, transparent 50%);
   }
 
   .container { max-width: 1100px; margin: 0 auto; }
@@ -55,7 +57,6 @@
     filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.5))
             drop-shadow(0 0 30px rgba(255, 184, 0, 0.15));
     animation: floatBall 7s ease-in-out infinite;
-    transform-origin: center;
   }
 
   @keyframes floatBall {
@@ -98,22 +99,24 @@
     position: relative;
   }
 
+  .progress-fill-jordi {
+    position: absolute; top: 0; left: 0; height: 100%;
+    background: rgba(34, 211, 197, 0.30);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
   .progress-fill-companero {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: rgba(255, 184, 0, 0.35);
+    position: absolute; top: 0; left: 0; height: 100%;
+    background: rgba(255, 184, 0, 0.40);
     border-radius: 4px;
     transition: width 0.4s ease;
     width: 0%;
   }
 
   .progress-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+    position: absolute; top: 0; left: 0; height: 100%;
     background: linear-gradient(90deg, var(--green) 0%, #7BC454 100%);
     border-radius: 4px;
     transition: width 0.4s ease;
@@ -124,18 +127,19 @@
     display: flex;
     justify-content: space-between;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    gap: 8px;
+    font-size: 11px;
+    gap: 6px;
     flex-wrap: wrap;
   }
 
   .progress-labels .obtained { color: var(--green); font-weight: 700; }
   .progress-labels .after-companero { color: var(--gold); }
+  .progress-labels .after-jordi { color: var(--teal); }
   .progress-labels .total { color: var(--muted); }
 
   .legend {
     display: flex;
-    gap: 20px;
+    gap: 18px;
     margin-bottom: 20px;
     font-size: 12px;
     color: var(--muted);
@@ -145,15 +149,18 @@
   .legend-item { display: flex; align-items: center; gap: 8px; }
 
   .legend-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
+    width: 14px; height: 14px; border-radius: 4px;
     border: 1.5px dashed var(--border);
   }
 
   .legend-dot.companero {
     border: 1.5px solid var(--gold);
     background: rgba(255, 184, 0, 0.12);
+  }
+
+  .legend-dot.jordi {
+    border: 1.5px solid var(--teal);
+    background: rgba(34, 211, 197, 0.12);
   }
 
   .legend-dot.obtained {
@@ -193,6 +200,12 @@
   .filter-btn.active {
     background: var(--gold);
     border-color: var(--gold);
+    color: #000;
+  }
+
+  .filter-btn.active[data-filter="jordi"] {
+    background: var(--teal);
+    border-color: var(--teal);
     color: #000;
   }
 
@@ -290,9 +303,7 @@
     width: 100%;
   }
 
-  .sticker-item:hover {
-    background: var(--surface-hover);
-  }
+  .sticker-item:hover { background: var(--surface-hover); }
 
   .sticker-num {
     min-width: 34px;
@@ -320,39 +331,49 @@
     line-height: 1.2;
   }
 
+  /* Adrián state */
   .sticker-item.companero .sticker-num {
     border: 1.5px solid var(--gold);
     background: rgba(255, 184, 0, 0.10);
     color: var(--gold);
     position: relative;
   }
-
   .sticker-item.companero .sticker-num::after {
     content: '';
     position: absolute;
-    top: -3px;
-    right: -3px;
-    width: 7px;
-    height: 7px;
+    top: -3px; right: -3px;
+    width: 7px; height: 7px;
     background: var(--gold);
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(255, 184, 0, 0.7);
   }
+  .sticker-item.companero .sticker-player { color: var(--gold); }
 
-  .sticker-item.companero .sticker-player {
-    color: var(--gold);
+  /* Jordi state */
+  .sticker-item.jordi .sticker-num {
+    border: 1.5px solid var(--teal);
+    background: rgba(34, 211, 197, 0.10);
+    color: var(--teal);
+    position: relative;
   }
+  .sticker-item.jordi .sticker-num::after {
+    content: '';
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 7px; height: 7px;
+    background: var(--teal);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(34, 211, 197, 0.7);
+  }
+  .sticker-item.jordi .sticker-player { color: var(--teal); }
 
+  /* Obtained overrides all */
   .sticker-item.obtained .sticker-num {
     background: var(--green);
     border: 1.5px solid var(--green);
     color: #000;
   }
-
-  .sticker-item.obtained .sticker-num::after {
-    display: none;
-  }
-
+  .sticker-item.obtained .sticker-num::after { display: none; }
   .sticker-item.obtained .sticker-player {
     text-decoration: line-through;
     color: var(--muted);
@@ -360,7 +381,7 @@
 
   .special-card {
     grid-column: 1 / -1;
-    background: linear-gradient(135deg, rgba(255, 184, 0, 0.06), rgba(0, 200, 83, 0.03));
+    background: linear-gradient(135deg, rgba(255, 184, 0, 0.06), rgba(34, 211, 197, 0.04));
     border: 1px solid var(--gold-dim);
   }
 
@@ -413,12 +434,14 @@
       <h1>Cromos que me <span class="accent">faltan</span></h1>
       <div class="progress-wrap">
         <div class="progress-track">
+          <div class="progress-fill-jordi" id="progressFillJordi"></div>
           <div class="progress-fill-companero" id="progressFillCompanero"></div>
           <div class="progress-fill" id="progressFill"></div>
         </div>
         <div class="progress-labels">
           <span><span class="obtained" id="obtainedCount">0</span> conseguidos</span>
           <span class="after-companero"><span id="afterCompaneroCount">0</span> tras Adrián</span>
+          <span class="after-jordi"><span id="afterJordiCount">0</span> tras +Jordi</span>
           <span class="total"><span id="totalCount">0</span> pendientes</span>
         </div>
       </div>
@@ -428,7 +451,8 @@
 
   <div class="legend">
     <div class="legend-item"><span class="legend-dot"></span> Pendiente</div>
-    <div class="legend-item"><span class="legend-dot companero"></span> Lo tiene Adrián Valenzuela</div>
+    <div class="legend-item"><span class="legend-dot companero"></span> Lo tiene Adrián</div>
+    <div class="legend-item"><span class="legend-dot jordi"></span> Lo tiene Jordi</div>
     <div class="legend-item"><span class="legend-dot obtained"></span> Ya conseguido</div>
   </div>
 
@@ -436,6 +460,7 @@
     <button class="filter-btn active" data-filter="all">Todos <span class="count" id="countAll"></span></button>
     <button class="filter-btn" data-filter="pending">Pendientes <span class="count" id="countPending"></span></button>
     <button class="filter-btn" data-filter="companero">De Adrián <span class="count" id="countCompanero"></span></button>
+    <button class="filter-btn" data-filter="jordi">De Jordi <span class="count" id="countJordi"></span></button>
     <input type="search" class="search" id="search" placeholder="Buscar equipo o jugador...">
   </div>
 
@@ -458,72 +483,72 @@
   const data = {
     specials: [
       { name: 'Especiales / FWC', stickers: [
-        { id: 'esp-00', num: '00', player: 'Panini Logo', companero: false },
-        { id: 'esp-copa', num: '—', player: 'Copa Arriba', companero: true },
-        { id: 'esp-fwc5', num: 'FWC5', player: 'Official Ball', companero: false },
-        { id: 'esp-fwc7', num: 'FWC7', player: 'Mexico · Host Country', companero: true },
-        { id: 'esp-fwc8', num: 'FWC8', player: 'USA · Host Country', companero: false },
+        { id: 'esp-00', num: '00', player: 'Panini Logo', companero: false, jordi: true },
+        { id: 'esp-copa', num: '—', player: 'Copa Arriba', companero: true, jordi: false },
+        { id: 'esp-fwc5', num: 'FWC5', player: 'Official Ball', companero: false, jordi: false },
+        { id: 'esp-fwc7', num: 'FWC7', player: 'Mexico · Host Country', companero: true, jordi: false },
+        { id: 'esp-fwc8', num: 'FWC8', player: 'USA · Host Country', companero: false, jordi: true },
       ]},
       { name: 'Coca-Cola', stickers: [
-        { id: 'cc-kimmich', num: 'CC', player: 'Kimmich', companero: false },
-        { id: 'cc-gvardiol', num: 'CC', player: 'Gvardiol', companero: false },
-        { id: 'cc-valverde', num: 'CC', player: 'Valverde', companero: true },
-        { id: 'cc-rjimenez', num: 'CC', player: 'Raúl Jiménez', companero: false },
-        { id: 'cc-lautaro', num: 'CC', player: 'Lautaro', companero: false },
-        { id: 'cc-robinson', num: 'CC', player: 'Robinson', companero: false },
+        { id: 'cc-kimmich', num: 'CC', player: 'Kimmich', companero: false, jordi: false },
+        { id: 'cc-gvardiol', num: 'CC', player: 'Gvardiol', companero: false, jordi: false },
+        { id: 'cc-valverde', num: 'CC', player: 'Valverde', companero: true, jordi: false },
+        { id: 'cc-rjimenez', num: 'CC', player: 'Raúl Jiménez', companero: false, jordi: false },
+        { id: 'cc-lautaro', num: 'CC', player: 'Lautaro', companero: false, jordi: false },
+        { id: 'cc-robinson', num: 'CC', player: 'Robinson', companero: false, jordi: false },
       ]},
       { name: 'Equipos Clásicos', stickers: [
-        { id: 'cl-13', num: 'FWC13', player: 'West Germany 1974', companero: false },
+        { id: 'cl-13', num: 'FWC13', player: 'West Germany 1974', companero: false, jordi: true },
       ]},
     ],
     teams: [
-      { name: 'México', missing: [{n:1,player:'Team Logo'},{n:7,player:'Israel Reyes'},{n:8,player:'Diego Lainez'},{n:10,player:'Edson Alvarez'},{n:11,player:'Orbelin Pineda'}], companero: [7] },
-      { name: 'Sudáfrica', missing: [{n:4,player:'Aubrey Modiba'},{n:6,player:'Mbekezeli Mbokazi'},{n:7,player:'Khulumani Ndamane'},{n:17,player:'Lyle Foster'},{n:19,player:'Mohau Nkota'},{n:20,player:'Oswin Appollis'}], companero: [4] },
-      { name: 'Corea', missing: [{n:11,player:'In-beom Hwang'},{n:15,player:'Jens Castrop'}], companero: [11] },
-      { name: 'Rep. Checa', missing: [{n:3,player:'Jindrich Stanek'},{n:4,player:'Ladislav Krejci'},{n:7,player:'Tomas Holes'},{n:17,player:'Tomas Chory'},{n:18,player:'Vaclav Cerny'}], companero: [17] },
-      { name: 'Canadá', missing: [{n:7,player:'Derek Cornelius'},{n:8,player:'Moïse Bombito'},{n:20,player:'Jonathan David'}], companero: [8] },
-      { name: 'Bosnia', missing: [{n:6,player:'Nihad Mujakic'},{n:7,player:'Nikola Katic'},{n:8,player:'Amir Hadziahmetovic'},{n:16,player:'Amar Memic'},{n:18,player:'Edin Dzeko'}], companero: [6] },
-      { name: 'Qatar', missing: [{n:1,player:'Team Logo'},{n:8,player:'Tarek Salman'},{n:10,player:'Karim Boudiaf'},{n:14,player:'Mohammed Waad'},{n:16,player:'Hassan Al-Haydos'}], companero: [10] },
-      { name: 'Suiza', missing: [{n:4,player:'Manuel Akanji'},{n:7,player:'Aurèle Amenda'},{n:13,player:'Team Photo'},{n:19,player:'Dan Ndoye'}], companero: [4] },
-      { name: 'Brasil', missing: [{n:7,player:'Danilo'},{n:11,player:'Bruno Guimarães'},{n:13,player:'Team Photo'}], companero: [11] },
-      { name: 'Marruecos', missing: [{n:13,player:'Team Photo'},{n:14,player:'Bilal El Khannouss'}], companero: [13] },
-      { name: 'Haití', missing: [{n:16,player:'Josue Casimir'},{n:18,player:'Duckens Nazon'},{n:20,player:'Frantzdy Pierrot'}], companero: [] },
-      { name: 'Escocia', missing: [{n:2,player:'Angus Gunn'},{n:8,player:'John Souttar'},{n:9,player:'Anthony Ralston'},{n:10,player:'Grant Hanley'},{n:11,player:'Scott McTominay'},{n:14,player:'Lewis Ferguson'},{n:16,player:'Kenny McLean'}], companero: [] },
-      { name: 'USA', missing: [{n:5,player:'Mark McKenzie'},{n:16,player:'Christian Pulisic'},{n:17,player:'Brenden Aaronson'}], companero: [] },
-      { name: 'Paraguay', missing: [{n:4,player:'Gustavo Gomez'},{n:8,player:'Junior Alonso'},{n:11,player:'Damián Bobadilla'},{n:14,player:'Matias Galarza Fonda'}], companero: [4,14] },
-      { name: 'Australia', missing: [{n:12,player:'Riley McGree'},{n:17,player:'Craig Goodwin'}], companero: [] },
-      { name: 'Turquía', missing: [{n:8,player:'Ferdi Kadioglu'},{n:10,player:'Ismail Yuksek'},{n:14,player:'Arda Guler'},{n:17,player:'Can Uzun'},{n:18,player:'Baris Alper Yilmaz'}], companero: [18] },
-      { name: 'Alemania', missing: [{n:3,player:'Jonathan Tah'},{n:10,player:'Joshua Kimmich'}], companero: [] },
-      { name: 'Curaçao', missing: [{n:3,player:'Armando Obispo'},{n:13,player:'Team Photo'},{n:14,player:'Tahith Chong'},{n:20,player:'Sontje Hansen'}], companero: [14] },
-      { name: 'Costa de Marfil', missing: [{n:13,player:'Team Photo'},{n:14,player:'Jean-Philippe Gbamin'},{n:17,player:'Simon Adingra'},{n:18,player:'Yan Diomande'},{n:19,player:'Evann Guessand'}], companero: [19] },
-      { name: 'Ecuador', missing: [{n:6,player:'Willian Pacho'},{n:8,player:'Joel Ordóñez'},{n:12,player:'Pedro Vite'},{n:15,player:'Leonardo Campana'},{n:19,player:'Kevin Rodriguez'},{n:20,player:'Enner Valencia'}], companero: [6,12,15] },
-      { name: 'Holanda', missing: [{n:1,player:'Team Logo'},{n:14,player:'Frenkie de Jong'},{n:15,player:'Xavi Simons'},{n:16,player:'Justin Kluivert'}], companero: [16] },
-      { name: 'Japón', missing: [{n:1,player:'Team Logo'},{n:6,player:'Shogo Taniguchi'},{n:10,player:'Ao Tanaka'},{n:11,player:'Daichi Kamada'},{n:12,player:'Takefusa Kubo'},{n:19,player:'Koki Ogawa'}], companero: [1,12] },
-      { name: 'Suecia', missing: [{n:6,player:'Victor Nilsson Lindelöf'},{n:10,player:'Jesper Karlström'},{n:11,player:'Yasin Ayari'},{n:12,player:'Mattias Svanberg'}], companero: [] },
-      { name: 'Túnez', missing: [{n:3,player:'Aymen Dahmen'},{n:7,player:'Ali Abdi'},{n:9,player:'Ellyes Skhiri'},{n:12,player:'Mohamed Ali Ben Romdhane'},{n:13,player:'Team Photo'},{n:14,player:'Hannibal Mejbri'}], companero: [3,12] },
-      { name: 'Bélgica', missing: [{n:2,player:'Thibaut Courtois'},{n:7,player:'Maxim De Cuyper'},{n:14,player:'Hans Vanaken'}], companero: [] },
-      { name: 'Egipto', missing: [{n:4,player:'Mohamed Hamdy'},{n:12,player:'Hamdy Fathy'}], companero: [] },
-      { name: 'Irán', missing: [{n:3,player:'Morteza Pouraliganji'},{n:8,player:'Hossein Kanaani'},{n:13,player:'Team Photo'}], companero: [] },
-      { name: 'N. Zelanda', missing: [{n:4,player:'Michael Boxall'},{n:15,player:'Marko Stamenić'}], companero: [] },
-      { name: 'España', missing: [{n:2,player:'Unai Simon'},{n:19,player:'Álvaro Morata'}], companero: [2] },
-      { name: 'Cabo Verde', missing: [{n:13,player:'Team Photo'},{n:17,player:'Ryan Mendes'},{n:20,player:'Bebe'}], companero: [] },
-      { name: 'Arabia', missing: [{n:3,player:'Abdulrahman Al-Sanbi'},{n:10,player:'Ziyad Aljohani'},{n:11,player:'Abdullah Alkhaibari'}], companero: [] },
-      { name: 'Uruguay', missing: [{n:3,player:'Santiago Mele'},{n:6,player:'Sebastian Caceres'},{n:10,player:'Federico Valverde'},{n:14,player:'Manuel Ugarte'},{n:16,player:'Maxi Araujo'},{n:18,player:'Federico Viñas'}], companero: [6,16] },
-      { name: 'Francia', missing: [{n:4,player:'William Saliba'},{n:5,player:'Jules Kounde'},{n:13,player:'Team Photo'},{n:18,player:'Kingsley Coman'}], companero: [] },
-      { name: 'Senegal', missing: [{n:1,player:'Team Logo'},{n:4,player:'Moussa Niakhaté'},{n:11,player:'Pape Gueye'},{n:16,player:'Ismaïla Sarr'},{n:17,player:'Boulaye Dia'},{n:18,player:'Iliman Ndiaye'},{n:20,player:'Krepin Diatta'}], companero: [16] },
-      { name: 'Iraq', missing: [{n:2,player:'Jalal Hassan'},{n:3,player:'Rebin Sulaka'},{n:6,player:'Merchas Doski'},{n:13,player:'Team Photo'},{n:14,player:'Youssef Amyn'},{n:17,player:'Osama Rashid'}], companero: [13] },
-      { name: 'Noruega', missing: [{n:6,player:'Marcus Holmgren Pedersen'}], companero: [] },
-      { name: 'Argentina', missing: [{n:2,player:'Emiliano Martinez'},{n:3,player:'Nahuel Molina'},{n:13,player:'Team Photo'},{n:14,player:'Nico Paz'},{n:17,player:'Lionel Messi'}], companero: [] },
-      { name: 'Argelia', missing: [{n:8,player:'Ismael Bennacer'},{n:9,player:'Houssem Aquar'},{n:11,player:'Ramiz Zerrouki'},{n:16,player:'Said Benrahma'},{n:18,player:'Amine Gouiri'}], companero: [16] },
-      { name: 'Austria', missing: [{n:14,player:'Florian Grillitsch'},{n:17,player:'Patrick Wimmer'},{n:18,player:'Christoph Baumgartner'}], companero: [17] },
-      { name: 'Jordania', missing: [{n:2,player:'Yazeed Abulaila'},{n:3,player:'Ihsan Haddad'},{n:4,player:'Mohammad Abu Hashish'},{n:9,player:'Ibrahim Saadeh'},{n:13,player:'Team Photo'},{n:15,player:'Musa Al-Taamari'},{n:18,player:'Ali Olwan'}], companero: [15] },
-      { name: 'Portugal', missing: [{n:7,player:'Nuno Mendes'}], companero: [] },
-      { name: 'Congo', missing: [{n:3,player:'Aaron Wan-Bissaka'},{n:4,player:'Axel Tuanzebe'},{n:5,player:'Arthur Masuaku'},{n:8,player:'Charles Pickel'},{n:17,player:'Brian Cipenga'}], companero: [17] },
-      { name: 'Uzbekistán', missing: [{n:12,player:'Jamshid Iskanderov'}], companero: [] },
-      { name: 'Inglaterra', missing: [{n:3,player:'John Stones'},{n:13,player:'Team Photo'},{n:15,player:'Anthony Gordon'},{n:20,player:'Ollie Watkins'}], companero: [13] },
-      { name: 'Croacia', missing: [{n:3,player:'Duje Caleta-Car'},{n:7,player:'Josip Sutalo'},{n:9,player:'Luka Modrić'}], companero: [7] },
-      { name: 'Ghana', missing: [{n:2,player:'Lawrence Ati Zigi'},{n:6,player:'Alexander Djiku'},{n:12,player:'Kamaldeen Sulemana'},{n:19,player:'Osman Bukari'}], companero: [] },
-      { name: 'Panamá', missing: [{n:3,player:'Luis Mejia'},{n:10,player:'Cristian Martinez'},{n:14,player:'Édgar Bárcenas'},{n:20,player:'Alberto Quintero'}], companero: [] },
+      { name: 'México', missing: [{n:1,player:'Team Logo'},{n:7,player:'Israel Reyes'},{n:8,player:'Diego Lainez'},{n:10,player:'Edson Alvarez'},{n:11,player:'Orbelin Pineda'}], companero: [7], jordi: [10,11] },
+      { name: 'Sudáfrica', missing: [{n:4,player:'Aubrey Modiba'},{n:6,player:'Mbekezeli Mbokazi'},{n:7,player:'Khulumani Ndamane'},{n:17,player:'Lyle Foster'},{n:19,player:'Mohau Nkota'},{n:20,player:'Oswin Appollis'}], companero: [4], jordi: [7,17,19,20] },
+      { name: 'Corea', missing: [{n:11,player:'In-beom Hwang'},{n:15,player:'Jens Castrop'}], companero: [11], jordi: [] },
+      { name: 'Rep. Checa', missing: [{n:3,player:'Jindrich Stanek'},{n:4,player:'Ladislav Krejci'},{n:7,player:'Tomas Holes'},{n:17,player:'Tomas Chory'},{n:18,player:'Vaclav Cerny'}], companero: [17], jordi: [4,7,18] },
+      { name: 'Canadá', missing: [{n:7,player:'Derek Cornelius'},{n:8,player:'Moïse Bombito'},{n:20,player:'Jonathan David'}], companero: [8], jordi: [] },
+      { name: 'Bosnia', missing: [{n:6,player:'Nihad Mujakic'},{n:7,player:'Nikola Katic'},{n:8,player:'Amir Hadziahmetovic'},{n:16,player:'Amar Memic'},{n:18,player:'Edin Dzeko'}], companero: [6], jordi: [7,8,16,18] },
+      { name: 'Qatar', missing: [{n:1,player:'Team Logo'},{n:8,player:'Tarek Salman'},{n:10,player:'Karim Boudiaf'},{n:14,player:'Mohammed Waad'},{n:16,player:'Hassan Al-Haydos'}], companero: [10], jordi: [1,8,14,16] },
+      { name: 'Suiza', missing: [{n:4,player:'Manuel Akanji'},{n:7,player:'Aurèle Amenda'},{n:13,player:'Team Photo'},{n:19,player:'Dan Ndoye'}], companero: [4], jordi: [13] },
+      { name: 'Brasil', missing: [{n:7,player:'Danilo'},{n:11,player:'Bruno Guimarães'},{n:13,player:'Team Photo'}], companero: [11], jordi: [13] },
+      { name: 'Marruecos', missing: [{n:13,player:'Team Photo'},{n:14,player:'Bilal El Khannouss'}], companero: [13], jordi: [14] },
+      { name: 'Haití', missing: [{n:16,player:'Josue Casimir'},{n:18,player:'Duckens Nazon'},{n:20,player:'Frantzdy Pierrot'}], companero: [], jordi: [20] },
+      { name: 'Escocia', missing: [{n:2,player:'Angus Gunn'},{n:8,player:'John Souttar'},{n:9,player:'Anthony Ralston'},{n:10,player:'Grant Hanley'},{n:11,player:'Scott McTominay'},{n:14,player:'Lewis Ferguson'},{n:16,player:'Kenny McLean'}], companero: [], jordi: [2,8,9,10,11,14,16] },
+      { name: 'USA', missing: [{n:5,player:'Mark McKenzie'},{n:16,player:'Christian Pulisic'},{n:17,player:'Brenden Aaronson'}], companero: [], jordi: [5,16] },
+      { name: 'Paraguay', missing: [{n:4,player:'Gustavo Gomez'},{n:8,player:'Junior Alonso'},{n:11,player:'Damián Bobadilla'},{n:14,player:'Matias Galarza Fonda'}], companero: [4,14], jordi: [8,11] },
+      { name: 'Australia', missing: [{n:12,player:'Riley McGree'},{n:17,player:'Craig Goodwin'}], companero: [], jordi: [12] },
+      { name: 'Turquía', missing: [{n:8,player:'Ferdi Kadioglu'},{n:10,player:'Ismail Yuksek'},{n:14,player:'Arda Guler'},{n:17,player:'Can Uzun'},{n:18,player:'Baris Alper Yilmaz'}], companero: [18], jordi: [8,14] },
+      { name: 'Alemania', missing: [{n:3,player:'Jonathan Tah'},{n:10,player:'Joshua Kimmich'}], companero: [], jordi: [3] },
+      { name: 'Curaçao', missing: [{n:3,player:'Armando Obispo'},{n:13,player:'Team Photo'},{n:14,player:'Tahith Chong'},{n:20,player:'Sontje Hansen'}], companero: [14], jordi: [3,13,20] },
+      { name: 'Costa de Marfil', missing: [{n:13,player:'Team Photo'},{n:14,player:'Jean-Philippe Gbamin'},{n:17,player:'Simon Adingra'},{n:18,player:'Yan Diomande'},{n:19,player:'Evann Guessand'}], companero: [19], jordi: [13,14,17] },
+      { name: 'Ecuador', missing: [{n:6,player:'Willian Pacho'},{n:8,player:'Joel Ordóñez'},{n:12,player:'Pedro Vite'},{n:15,player:'Leonardo Campana'},{n:19,player:'Kevin Rodriguez'},{n:20,player:'Enner Valencia'}], companero: [6,12,15], jordi: [] },
+      { name: 'Holanda', missing: [{n:1,player:'Team Logo'},{n:14,player:'Frenkie de Jong'},{n:15,player:'Xavi Simons'},{n:16,player:'Justin Kluivert'}], companero: [16], jordi: [14,15] },
+      { name: 'Japón', missing: [{n:1,player:'Team Logo'},{n:6,player:'Shogo Taniguchi'},{n:10,player:'Ao Tanaka'},{n:11,player:'Daichi Kamada'},{n:12,player:'Takefusa Kubo'},{n:19,player:'Koki Ogawa'}], companero: [1,12], jordi: [6,10,19] },
+      { name: 'Suecia', missing: [{n:6,player:'Victor Nilsson Lindelöf'},{n:10,player:'Jesper Karlström'},{n:11,player:'Yasin Ayari'},{n:12,player:'Mattias Svanberg'}], companero: [], jordi: [] },
+      { name: 'Túnez', missing: [{n:3,player:'Aymen Dahmen'},{n:7,player:'Ali Abdi'},{n:9,player:'Ellyes Skhiri'},{n:12,player:'Mohamed Ali Ben Romdhane'},{n:13,player:'Team Photo'},{n:14,player:'Hannibal Mejbri'}], companero: [3,12], jordi: [13,14] },
+      { name: 'Bélgica', missing: [{n:2,player:'Thibaut Courtois'},{n:7,player:'Maxim De Cuyper'},{n:14,player:'Hans Vanaken'}], companero: [], jordi: [7,14] },
+      { name: 'Egipto', missing: [{n:4,player:'Mohamed Hamdy'},{n:12,player:'Hamdy Fathy'}], companero: [], jordi: [12] },
+      { name: 'Irán', missing: [{n:3,player:'Morteza Pouraliganji'},{n:8,player:'Hossein Kanaani'},{n:13,player:'Team Photo'}], companero: [], jordi: [3,8] },
+      { name: 'N. Zelanda', missing: [{n:4,player:'Michael Boxall'},{n:15,player:'Marko Stamenić'}], companero: [], jordi: [] },
+      { name: 'España', missing: [{n:2,player:'Unai Simon'},{n:19,player:'Álvaro Morata'}], companero: [2], jordi: [] },
+      { name: 'Cabo Verde', missing: [{n:13,player:'Team Photo'},{n:17,player:'Ryan Mendes'},{n:20,player:'Bebe'}], companero: [], jordi: [17,20] },
+      { name: 'Arabia', missing: [{n:3,player:'Abdulrahman Al-Sanbi'},{n:10,player:'Ziyad Aljohani'},{n:11,player:'Abdullah Alkhaibari'}], companero: [], jordi: [10,11] },
+      { name: 'Uruguay', missing: [{n:3,player:'Santiago Mele'},{n:6,player:'Sebastian Caceres'},{n:10,player:'Federico Valverde'},{n:14,player:'Manuel Ugarte'},{n:16,player:'Maxi Araujo'},{n:18,player:'Federico Viñas'}], companero: [6,16], jordi: [3,18] },
+      { name: 'Francia', missing: [{n:4,player:'William Saliba'},{n:5,player:'Jules Kounde'},{n:13,player:'Team Photo'},{n:18,player:'Kingsley Coman'}], companero: [], jordi: [4,5,13] },
+      { name: 'Senegal', missing: [{n:1,player:'Team Logo'},{n:4,player:'Moussa Niakhaté'},{n:11,player:'Pape Gueye'},{n:16,player:'Ismaïla Sarr'},{n:17,player:'Boulaye Dia'},{n:18,player:'Iliman Ndiaye'},{n:20,player:'Krepin Diatta'}], companero: [16], jordi: [4,11,17,18,20] },
+      { name: 'Iraq', missing: [{n:2,player:'Jalal Hassan'},{n:3,player:'Rebin Sulaka'},{n:6,player:'Merchas Doski'},{n:13,player:'Team Photo'},{n:14,player:'Youssef Amyn'},{n:17,player:'Osama Rashid'}], companero: [13], jordi: [6,14,17] },
+      { name: 'Noruega', missing: [{n:6,player:'Marcus Holmgren Pedersen'}], companero: [], jordi: [6] },
+      { name: 'Argentina', missing: [{n:2,player:'Emiliano Martinez'},{n:3,player:'Nahuel Molina'},{n:13,player:'Team Photo'},{n:14,player:'Nico Paz'},{n:17,player:'Lionel Messi'}], companero: [], jordi: [3] },
+      { name: 'Argelia', missing: [{n:8,player:'Ismael Bennacer'},{n:9,player:'Houssem Aquar'},{n:11,player:'Ramiz Zerrouki'},{n:16,player:'Said Benrahma'},{n:18,player:'Amine Gouiri'}], companero: [16], jordi: [9,11,18] },
+      { name: 'Austria', missing: [{n:14,player:'Florian Grillitsch'},{n:17,player:'Patrick Wimmer'},{n:18,player:'Christoph Baumgartner'}], companero: [17], jordi: [14,18] },
+      { name: 'Jordania', missing: [{n:2,player:'Yazeed Abulaila'},{n:3,player:'Ihsan Haddad'},{n:4,player:'Mohammad Abu Hashish'},{n:9,player:'Ibrahim Saadeh'},{n:13,player:'Team Photo'},{n:15,player:'Musa Al-Taamari'},{n:18,player:'Ali Olwan'}], companero: [15], jordi: [3,4,9,13,18] },
+      { name: 'Portugal', missing: [{n:7,player:'Nuno Mendes'}], companero: [], jordi: [7] },
+      { name: 'Congo', missing: [{n:3,player:'Aaron Wan-Bissaka'},{n:4,player:'Axel Tuanzebe'},{n:5,player:'Arthur Masuaku'},{n:8,player:'Charles Pickel'},{n:17,player:'Brian Cipenga'}], companero: [17], jordi: [3,4,5,8] },
+      { name: 'Uzbekistán', missing: [{n:12,player:'Jamshid Iskanderov'}], companero: [], jordi: [12] },
+      { name: 'Inglaterra', missing: [{n:3,player:'John Stones'},{n:13,player:'Team Photo'},{n:15,player:'Anthony Gordon'},{n:20,player:'Ollie Watkins'}], companero: [13], jordi: [15,20] },
+      { name: 'Croacia', missing: [{n:3,player:'Duje Caleta-Car'},{n:7,player:'Josip Sutalo'},{n:9,player:'Luka Modrić'}], companero: [7], jordi: [] },
+      { name: 'Ghana', missing: [{n:2,player:'Lawrence Ati Zigi'},{n:6,player:'Alexander Djiku'},{n:12,player:'Kamaldeen Sulemana'},{n:19,player:'Osman Bukari'}], companero: [], jordi: [2,12,19] },
+      { name: 'Panamá', missing: [{n:3,player:'Luis Mejia'},{n:10,player:'Cristian Martinez'},{n:14,player:'Édgar Bárcenas'},{n:20,player:'Alberto Quintero'}], companero: [], jordi: [3,10,20] },
     ]
   };
 
@@ -533,8 +558,6 @@
 
   const STORAGE_KEY = 'panini-wc-2026-obtained';
 
-  // Storage layer: prefer window.storage (Claude environment), fall back to localStorage
-  // (standalone browser). This lets the file work when shared as a plain HTML file.
   const storage = {
     async get(key) {
       if (typeof window.storage !== 'undefined' && window.storage) {
@@ -554,20 +577,13 @@
   async function loadState() {
     try {
       const result = await storage.get(STORAGE_KEY);
-      if (result && result.value) {
-        obtainedSet = new Set(JSON.parse(result.value));
-      }
-    } catch (e) {
-      obtainedSet = new Set();
-    }
+      if (result && result.value) obtainedSet = new Set(JSON.parse(result.value));
+    } catch (e) { obtainedSet = new Set(); }
   }
 
   async function saveState() {
-    try {
-      await storage.set(STORAGE_KEY, JSON.stringify([...obtainedSet]));
-    } catch (e) {
-      console.error('Save failed:', e);
-    }
+    try { await storage.set(STORAGE_KEY, JSON.stringify([...obtainedSet])); }
+    catch (e) { console.error('Save failed:', e); }
   }
 
   function buildTeamStickers(team) {
@@ -575,7 +591,8 @@
       id: `team-${team.name}-${s.n}`,
       num: String(s.n),
       player: s.player,
-      companero: team.companero.includes(s.n)
+      companero: team.companero.includes(s.n),
+      jordi: (team.jordi || []).includes(s.n)
     }));
   }
 
@@ -591,21 +608,25 @@
     const total = all.length;
     const obtained = all.filter(s => obtainedSet.has(s.id)).length;
     const pending = total - obtained;
-    const companeroPending = all.filter(s => s.companero && !obtainedSet.has(s.id)).length;
-    const afterCompanero = pending - companeroPending;
+    const compPending = all.filter(s => s.companero && !obtainedSet.has(s.id)).length;
+    const jordiPending = all.filter(s => s.jordi && !obtainedSet.has(s.id)).length;
+    const afterComp = pending - compPending;
+    const afterJordi = afterComp - jordiPending;
 
     document.getElementById('obtainedCount').textContent = obtained;
-    document.getElementById('afterCompaneroCount').textContent = afterCompanero;
+    document.getElementById('afterCompaneroCount').textContent = afterComp;
+    document.getElementById('afterJordiCount').textContent = afterJordi;
     document.getElementById('totalCount').textContent = pending;
 
-    const obtainedPct = total > 0 ? (obtained / total * 100) : 0;
-    const withCompaneroPct = total > 0 ? ((obtained + companeroPending) / total * 100) : 0;
-    document.getElementById('progressFill').style.width = obtainedPct + '%';
-    document.getElementById('progressFillCompanero').style.width = withCompaneroPct + '%';
+    const pct = n => total > 0 ? (n / total * 100) : 0;
+    document.getElementById('progressFill').style.width = pct(obtained) + '%';
+    document.getElementById('progressFillCompanero').style.width = pct(obtained + compPending) + '%';
+    document.getElementById('progressFillJordi').style.width = pct(obtained + compPending + jordiPending) + '%';
 
     document.getElementById('countAll').textContent = total;
     document.getElementById('countPending').textContent = pending;
-    document.getElementById('countCompanero').textContent = companeroPending;
+    document.getElementById('countCompanero').textContent = compPending;
+    document.getElementById('countJordi').textContent = jordiPending;
   }
 
   function matchesSearch(name, stickers) {
@@ -619,6 +640,7 @@
     if (!matchesSearch(name, stickerList)) return false;
     if (currentFilter === 'pending') return stickerList.some(s => !obtainedSet.has(s.id));
     if (currentFilter === 'companero') return stickerList.some(s => s.companero && !obtainedSet.has(s.id));
+    if (currentFilter === 'jordi') return stickerList.some(s => s.jordi && !obtainedSet.has(s.id));
     return true;
   }
 
@@ -629,10 +651,8 @@
   function renderCard(name, stickers, isSpecial) {
     const card = document.createElement('div');
     card.className = 'team-card' + (isSpecial ? ' special-card' : '');
-
     const allDone = stickers.every(s => obtainedSet.has(s.id));
     if (allDone) card.classList.add('all-done');
-
     const obtained = stickers.filter(s => obtainedSet.has(s.id)).length;
 
     card.innerHTML = `
@@ -644,6 +664,7 @@
         ${stickers.map(s => {
           const classes = ['sticker-item'];
           if (s.companero) classes.push('companero');
+          if (s.jordi) classes.push('jordi');
           if (obtainedSet.has(s.id)) classes.push('obtained');
           return `<button class="${classes.join(' ')}" data-id="${escapeHtml(s.id)}">
             <span class="sticker-num">${escapeHtml(s.num)}</span>
@@ -710,7 +731,6 @@
     }
   });
 
-  // Export backup: descarga un JSON con el progreso actual
   document.getElementById('exportBackupBtn').addEventListener('click', () => {
     const payload = {
       version: 1,
@@ -730,13 +750,12 @@
     URL.revokeObjectURL(url);
   });
 
-  // Import backup: sube un JSON y sustituye el progreso
   document.getElementById('importBackupBtn').addEventListener('click', () => {
     document.getElementById('importFileInput').click();
   });
   document.getElementById('importFileInput').addEventListener('change', async (e) => {
     const file = e.target.files[0];
-    e.target.value = ''; // reset para poder cargar el mismo archivo dos veces
+    e.target.value = '';
     if (!file) return;
     try {
       const text = await file.text();
@@ -757,7 +776,6 @@
 
   document.getElementById('exportBtn').addEventListener('click', () => {
     const lines = ['CROMOS PENDIENTES · Panini WC 2026', ''];
-
     data.specials.forEach(group => {
       const pending = group.stickers.filter(s => !obtainedSet.has(s.id));
       if (pending.length > 0) {
@@ -766,7 +784,6 @@
         lines.push('');
       }
     });
-
     data.teams.forEach(team => {
       const stickers = buildTeamStickers(team);
       const pending = stickers.filter(s => !obtainedSet.has(s.id));
@@ -776,7 +793,6 @@
         lines.push('');
       }
     });
-
     const text = lines.join('\n');
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('exportBtn');
